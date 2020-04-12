@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc93c66c3a899d4ebf755da6e34d467, type: 3}
+  m_Name: GoogleChrome
+  m_EditorClassIdentifier: 
+  AppName: Google Chrome
+  AppIcon: {fileID: 21300000, guid: 7d759870c9a21ed419a6ab108b949ba8, type: 3}
+  AppDescription: Chrome is a free Internet browser officially released by Google
+    on December 11, 2008. Its features include synchronization with Google services
+    and accounts, tabbed browsing, and automatic translation and spell check of web
+    pages. It also features an integrated address bar/search bar, called the omnibox.
+  AppScreenshots:
+  - {fileID: 21300000, guid: d5e2de10f264ef94e9164decbbc86cfd, type: 3}
