@@ -5,10 +5,9 @@ using UnityEngine.EventSystems;
 
 public class CreateDescriptionToApp : MonoBehaviour
 {
-	public App GivenApp;
-
-	private GameObject AppDescription;
-	private GameObject ScreenShots;
+	[HideInInspector] public App GivenApp;
+	[HideInInspector] public GameObject AppDescription;
+	[HideInInspector] public GameObject ScreenShots;
 
 	public void LoadCreateScreenshotsAndOpenAppDescription()
 	{
@@ -18,14 +17,12 @@ public class CreateDescriptionToApp : MonoBehaviour
 	}
 	private void LoadAppDescription()
 	{
-		AppDescription = GameObject.Find("AppDescription");
 		ForAppDecription LoadAppDescription = AppDescription.GetComponent<ForAppDecription>();
 		LoadAppDescription.GivenApp = GivenApp;
 		LoadAppDescription.LoadAppDescriptionOnObjectsAndUpdateContentSize();
 	}
 	private void CreateScreenshots()
 	{
-		ScreenShots = GameObject.Find("AppScreenshots");
 		ScreenshotsGenerator GenerateScreenshots = ScreenShots.GetComponent<ScreenshotsGenerator>();
 		GenerateScreenshots.GivenApp = GivenApp;
 		GenerateScreenshots.CreateScreenshotsWithAppImagesAndChangeContentSize();

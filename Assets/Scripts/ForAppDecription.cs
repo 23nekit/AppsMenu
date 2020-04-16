@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ForAppDecription : MonoBehaviour
 {
-	public App GivenApp;
+	[HideInInspector] public App GivenApp;
 	public Image Icon;
 	public Text AppName;
 	public Image ScreenshotsContent;
@@ -21,6 +21,7 @@ public class ForAppDecription : MonoBehaviour
 	}
 	private void UpdateContentSize()
 	{
-		DescriptionContent.GetComponent<RectTransform>().sizeDelta = DescriptionContent.GetComponent<RectTransform>().sizeDelta + new Vector2(0, 1);
+		RectTransform DescriptionContentRectTransform = DescriptionContent.GetComponent<RectTransform>();
+		DescriptionContentRectTransform.sizeDelta = DescriptionContentRectTransform.sizeDelta + Vector2.up;
 	}
 }

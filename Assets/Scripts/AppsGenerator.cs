@@ -7,24 +7,33 @@ public class AppsGenerator : MonoBehaviour
 {
 	public List<App> Apps;
 	public GameObject Content;
+	public GameObject AppDescriptionObject;
+	public GameObject AppDescriptionScreenshotsObject;
 	public Vector2 NumerateTextPosition;
 	public Vector2 ImageStandartPosition;
 	public Vector2 TextStandartPosition;
+	public Vector2 ContentRectTransformSizeAddition;
+	public Vector2 StandartSize;
+	public Vector2 NameTextSize;
+	public Vector3 StandartScale;
+	public Vector3 IconScale;
+	public int FontSize;
 	public Font Arial;
 
 	private GameObject ParentOfComponents;
 	private GameObject NewObjForNumerate;
 	private GameObject NewObjForIcon;
 	private GameObject NewObjForText;
-	private int i = 0;
+	private RectTransform ContentRectTransform;
+	int i;
 
-	private void Update()
+	private void Start()
 	{
-		if (i < Apps.Count)
+		ContentRectTransform = Content.GetComponent<RectTransform>();
+		for (i = 0; i < Apps.Count; i++)
 		{
 			AddEditAndActivateObjectsForApp();
-			EditSizeDelta(Content.GetComponent<RectTransform>(), Content.GetComponent<RectTransform>().sizeDelta + new Vector2(0, 115));
-			i++;
+			EditSizeDelta(ContentRectTransform, ContentRectTransform.sizeDelta + ContentRectTransformSizeAddition);
 		}
 	}
 	private void AddEditAndActivateObjectsForApp()
@@ -56,13 +65,17 @@ public class AppsGenerator : MonoBehaviour
 	}
 	private void GiveParentAppInfoAndAddListener()
 	{
-		ParentOfComponents.AddComponent<CreateDescriptionToApp>().GivenApp = Apps[i];
-		ParentOfComponents.AddComponent<Button>().onClick.AddListener(ParentOfComponents.GetComponent<CreateDescriptionToApp>().LoadCreateScreenshotsAndOpenAppDescription);
+		CreateDescriptionToApp ParentOfComponentsScript = ParentOfComponents.AddComponent<CreateDescriptionToApp>();
+		ParentOfComponentsScript.AppDescription = AppDescriptionObject;
+		ParentOfComponentsScript.ScreenShots = AppDescriptionScreenshotsObject;
+		ParentOfComponentsScript.GivenApp = Apps[i];
+		ParentOfComponents.AddComponent<Button>().onClick.AddListener(ParentOfComponentsScript.LoadCreateScreenshotsAndOpenAppDescription);
 	}
 	private void AddImageComponentToParentObjectAndEditIt()
 	{
 		Image NewImageForParent = ParentOfComponents.AddComponent<Image>();
-		EditRectTransform(ParentOfComponents.GetComponent<RectTransform>(), Content, new Vector3(1f, 1f, 1f), new Vector2(Content.GetComponent<RectTransform>().sizeDelta.x, 100), ParentOfComponents.GetComponent<RectTransform>().localPosition);
+		RectTransform ParentOfComponentsRectTransform = ParentOfComponents.GetComponent<RectTransform>();
+		EditRectTransform(ParentOfComponentsRectTransform, Content, StandartScale, new Vector2(ContentRectTransform.sizeDelta.x, StandartSize.y), ParentOfComponentsRectTransform.localPosition);
 	}
 	private void EditRectTransform(RectTransform RectTransformFromObject, GameObject Parent, Vector3 LocalScale, Vector2 Size, Vector2 LocalPosition)
 	{
@@ -77,8 +90,9 @@ public class AppsGenerator : MonoBehaviour
 	}
 	private void EditAndActivateNumerateText()
 	{
-		AddComponentTextToObjectAndEditIt(NewObjForNumerate, (i + 1).ToString(), Arial, 50, TextAnchor.MiddleCenter, Color.black);
-		EditRectTransform(NewObjForNumerate.GetComponent<RectTransform>(), ParentOfComponents, new Vector3(1, 1, 1), new Vector2(100, 100), NumerateTextPosition);
+		AddComponentTextToObjectAndEditIt(NewObjForNumerate, (i + 1).ToString(), Arial, FontSize, TextAnchor.MiddleCenter, Color.black);
+		RectTransform NewObjForNumerateRectTransform = NewObjForNumerate.GetComponent<RectTransform>();
+		EditRectTransform(NewObjForNumerateRectTransform, ParentOfComponents, StandartScale, StandartSize, NumerateTextPosition);
 		NewObjForNumerate.SetActive(true);
 	}
 	private void AddComponentTextToObjectAndEditIt(GameObject ObjectForEdit, string TextForWrite, Font FontToText, int FontSize, TextAnchor TextLocation, Color TextColor)
@@ -99,12 +113,14 @@ public class AppsGenerator : MonoBehaviour
 	{
 		Image NewImage = NewObjForIcon.AddComponent<Image>();
 		NewImage.sprite = Apps[i].AppIcon;
-		EditRectTransform(NewObjForIcon.GetComponent<RectTransform>(), ParentOfComponents, new Vector3(0.75f, 0.75f, 0.75f), new Vector2(100, 100), ImageStandartPosition);
+		RectTransform NewObjForIconRectTransform = NewObjForIcon.GetComponent<RectTransform>();
+		EditRectTransform(NewObjForIconRectTransform, ParentOfComponents, IconScale, StandartSize, ImageStandartPosition);
 	}
 	private void EditAndActivateTextObject()
 	{
-		AddComponentTextToObjectAndEditIt(NewObjForText, Apps[i].AppName, Arial, 50, TextAnchor.MiddleLeft, Color.black);
-		EditRectTransform(NewObjForText.GetComponent<RectTransform>(), ParentOfComponents, new Vector3(1, 1, 1), new Vector2(572, 100), TextStandartPosition);
+		AddComponentTextToObjectAndEditIt(NewObjForText, Apps[i].AppName, Arial, FontSize, TextAnchor.MiddleLeft, Color.black);
+		RectTransform NewObjForTextRectTransform = NewObjForText.GetComponent<RectTransform>();
+		EditRectTransform(NewObjForTextRectTransform, ParentOfComponents, StandartScale, NameTextSize, TextStandartPosition);
 		NewObjForText.SetActive(true);
 	}
 	private void RenameObjects()

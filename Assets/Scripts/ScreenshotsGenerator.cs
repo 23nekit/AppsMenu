@@ -6,14 +6,16 @@ using UnityEngine.UI;
 public class ScreenshotsGenerator : MonoBehaviour
 {
 	public GameObject Content;
-	public App GivenApp;
+	[HideInInspector] public App GivenApp;
 
 	private Vector2 SavedSizes;
 	private GameObject Screenshot;
+	private RectTransform ContentRectTransform;
 
 	private void Start()
 	{
-		SavedSizes = Content.GetComponent<RectTransform>().sizeDelta;
+		ContentRectTransform = Content.GetComponent<RectTransform>();
+		SavedSizes = ContentRectTransform.sizeDelta;
 	}
 
 	public void CreateScreenshotsWithAppImagesAndChangeContentSize()
@@ -24,9 +26,10 @@ public class ScreenshotsGenerator : MonoBehaviour
 			Screenshot = new GameObject();
 			Image CreatingImage = Screenshot.AddComponent<Image>();
 			CreatingImage.sprite = GivenApp.AppScreenshots[i];
-			Screenshot.GetComponent<RectTransform>().SetParent(Content.transform);
-			Screenshot.GetComponent<RectTransform>().sizeDelta = SavedSizes;
-			Screenshot.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+			RectTransform ScreenshotRectTransform = Screenshot.GetComponent<RectTransform>();
+			ScreenshotRectTransform.SetParent(Content.transform);
+			ScreenshotRectTransform.sizeDelta = SavedSizes;
+			ScreenshotRectTransform.localScale = Vector3.one;
 			Screenshot.name = "Screenshot" + (i + 1).ToString();
 			Screenshot.SetActive(true);
 			ChangeContentSize();
@@ -38,10 +41,10 @@ public class ScreenshotsGenerator : MonoBehaviour
 		{
 			Destroy(child.gameObject);
 		}
-		Content.GetComponent<RectTransform>().sizeDelta = SavedSizes;
+		ContentRectTransform.sizeDelta = SavedSizes;
 	}
 	private void ChangeContentSize()
 	{
-		Content.GetComponent<RectTransform>().sizeDelta = new Vector2(Content.GetComponent<RectTransform>().sizeDelta.x + SavedSizes.x, Content.GetComponent<RectTransform>().sizeDelta.y);
+		ContentRectTransform.sizeDelta = new Vector2(ContentRectTransform.sizeDelta.x + SavedSizes.x, ContentRectTransform.sizeDelta.y);
 	}
 }
